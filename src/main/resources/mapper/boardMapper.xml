@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.board.repository.BoardMapper">
+    <insert id="saveBoard">
+        <selectKey keyProperty="board_id" resultType="long" order="BEFORE">
+            select seq_board.nextval from dual
+        </selectKey>
+        insert into board (
+            board_id,
+            title,
+            contents,
+            member_id
+        ) values (
+            #{board_id},
+            #{title},
+            #{contents},
+            #{member_id}
+        )
+    </insert>
+
+    <select id="findAllBoards" resultType="board">
+        select * from board
+    </select>
+
+    <select id="findBoard" resultType="board">
+        select * from board where board_id = #{board_id}
+    </select>
+
+    <update id="updateBoard">
+        update board
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="contents != null">contents = #{contents},</if>
+            <if test="hit != null">hit = #{hit},</if>
+        </set>
+        where board_id = #{board_id}
+    </update>
+
+
+</mapper>

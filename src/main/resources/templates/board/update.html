@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+    <link rel="stylesheet" href="/default.css">
+</head>
+<body>
+<div id="container">
+  <h1>[ 게시판 - 글수정 ]</h1>
+  <form th:action="@{/update(id=${board.id})}" th:object="${board}" method="post">
+    <table>
+      <tr>
+        <th>제목</th>
+        <td><input type="text" th:field="*{title}"></td>
+      </tr>
+      <tr>
+        <th>내용</th>
+        <td><textarea rows="10" cols="30" th:field="*{contents}" ></textarea></td>
+      </tr>
+      <tr>
+        <th>조회수</th>
+        <td><span th:text="*{hit}"></span></td>
+      </tr>
+      <tr>
+        <th>작성일</th>
+        <td><span th:text="*{#temporals.format(created_time, 'yyyy-MM-dd HH:mm')}"></span></td>
+      </tr>
+      <tr>
+        <th>작성자</th>
+        <td><input type="text" th:field="*{username}" readonly="readonly"></td>
+      </tr>
+      <tr>
+        <th>패스워드</th>
+        <td><input type="password" th:field="*{password}" placeholder="수정 시 패스워드를 입력해 주세요"></td>
+      </tr>
+    </table>
+    <p>
+    <div class="center">
+    <input type="button" onclick="location.href='/'" value="메인으로">
+    <input type="submit" value="수정하기">
+    <input type="reset" value="취소">
+  </div>
+  </form>
+</div>
+</body>
+</html>
