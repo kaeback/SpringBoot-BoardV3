@@ -8,7 +8,6 @@
 <body>
 <div id="container">
   <h1>[ 게시판 - 글쓰기 ]</h1>
-  <input type="button" onclick="location.href='/'" value="메인으로">
   <p>
   <form action="write" method="post" th:object="${writeForm}">
     <table>
@@ -29,6 +28,7 @@
     </table>
     <p>
     <div class="center">
+      <input type="button" onclick="location.href='/board/list'" value="목록으로">
       <input type="submit" value="등록하기">
       <input type="reset" value="취소">
     </div>

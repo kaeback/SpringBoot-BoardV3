@@ -11,5 +11,5 @@ public interface BoardMapper {
     List<Board> findAllBoards();
     Board findBoard(Long board_id);
     void updateBoard(Board updateBoard);
-
+    void removeBoard(Long board_id);
 }

@@ -38,5 +38,8 @@
         where board_id = #{board_id}
     </update>
 
+    <delete id="removeBoard">
+        delete from board where board_id = #{board_id}
+    </delete>
 
 </mapper>
