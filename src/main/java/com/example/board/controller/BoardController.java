@@ -17,26 +17,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("board")
 @Controller
 public class BoardController {
 
-    // 데이터베이스 접근을 위한 BoardMapper 필드 선언
     private final BoardMapper boardMapper;
-
-    // BoardMapper 객체 필드 주입(생성자 주입 방식)
-    public BoardController(BoardMapper boardMapper) {
-        this.boardMapper = boardMapper;
-    }
 
     // 글쓰기 페이지 이동
     @GetMapping("write")
-    public String writeForm(@SessionAttribute(value = "loginMember", required = false) Member loginMember,
-                            Model model) {
-        // 로그인 상태가 아니면 로그인 페이지로 보낸다.
-        if (loginMember == null) {
-            return "redirect:/member/login";
-        }
+    public String writeForm(Model model) {
         // writeForm.html의 필드 표시를 위해 빈 BoardWriteForm 객체를 생성하여 model 에 저장한다.
         model.addAttribute("writeForm", new BoardWriteForm());
         // board/writeForm.html 을 찾아 리턴한다.
@@ -71,12 +61,7 @@ public class BoardController {
 
     // 게시글 전체 보기
     @GetMapping("list")
-    public String list(@SessionAttribute(value = "loginMember", required = false) Member loginMember,
-                       Model model) {
-        // 로그인 상태가 아니면 로그인 페이지로 보낸다.
-        if (loginMember == null) {
-            return "redirect:/member/login";
-        }
+    public String list(Model model) {
         // 데이터베이스에 저장된 모든 Board 객체를 리스트 형태로 받는다.
         List<Board> boards = boardMapper.findAllBoards();
         // Board 리스트를 model 에 저장한다.
@@ -87,14 +72,8 @@ public class BoardController {
 
     // 게시글 읽기
     @GetMapping("read")
-    public String read(@SessionAttribute(value = "loginMember", required = false) Member loginMember,
-                       @RequestParam Long board_id,
+    public String read(@RequestParam Long board_id,
                        Model model) {
-        // 로그인 상태가 아니면 로그인 페이지로 보낸다.
-        if (loginMember == null) {
-            return "redirect:/member/login";
-        }
-
         log.info("id: {}", board_id);
 
         // board_id 에 해당하는 게시글을 데이터베이스에서 찾는다.
@@ -120,11 +99,6 @@ public class BoardController {
     public String updateForm(@SessionAttribute(value = "loginMember", required = false) Member loginMember,
                              @RequestParam Long board_id,
                              Model model) {
-        // 로그인 상태가 아니면 로그인 페이지로 보낸다.
-        if (loginMember == null) {
-            return "redirect:/member/login";
-        }
-
         log.info("id: {}", board_id);
 
         // board_id에 해당하는 게시글이 없거나 게시글의 작성자가 로그인한 사용자의 아이디와 다르면 수정하지 않고 리스트로 리다이렉트 시킨다.
@@ -145,11 +119,6 @@ public class BoardController {
                          @RequestParam Long board_id,
                          @Validated @ModelAttribute("board") BoardUpdateForm updateBoard,
                          BindingResult result) {
-        // 로그인 상태가 아니면 로그인 페이지로 보낸다.
-        if (loginMember == null) {
-            return "redirect:/member/login";
-        }
-
         log.info("board: {}", updateBoard);
         // validation 에 에러가 있으면 board/update.html 페이지로 돌아간다.
         if (result.hasErrors()) {
@@ -177,10 +146,6 @@ public class BoardController {
     @GetMapping("delete")
     public String remove(@SessionAttribute(value = "loginMember", required = false) Member loginMember,
                          @RequestParam Long board_id) {
-        // 로그인 상태가 아니면 로그인 페이지로 보낸다.
-        if (loginMember == null) {
-            return "redirect:/member/login";
-        }
         // board_id 에 해당하는 게시글을 가져온다.
         Board board = boardMapper.findBoard(board_id);
         // 게시글이 존재하지 않거나 작성자와 로그인 사용자의 아이디가 다르면 리스트로 리다이렉트 한다.

@@ -17,18 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("member")
 @Controller
 public class MemberController {
 
     // 데이터베이스 접근을 위한 MemberMapper 필드 선언
-    private MemberMapper memberMapper;
-
-    // MemberMapper 필드 객체 주입(setter 를 이용한 주입)
-    @Autowired
-    public void setMemberMapper(MemberMapper memberMapper) {
-        this.memberMapper = memberMapper;
-    }
+    private final MemberMapper memberMapper;
 
     // 회원가입 페이지 이동
     @GetMapping("join")
