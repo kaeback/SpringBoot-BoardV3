@@ -3,6 +3,7 @@ package com.example.board.config;
 import com.example.board.filter.LogFilter;
 import com.example.board.filter.LoginCheckFilter;
 import com.example.board.interceptor.LogInceptor;
+import com.example.board.interceptor.LoginCheckInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,9 @@ import javax.servlet.Filter;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    private String[] excludePaths = {"/", "/member/join", "/member/login", "/member/logout", "/css/**", "/*.ico", "/error"};
+
 //    @Bean
     public FilterRegistrationBean logFilter() {
         FilterRegistrationBean<Filter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
@@ -45,5 +49,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 // 인터셉터에서 제외할 패턴을 지정
                 .excludePathPatterns("/css/**", "/*.ico", "/error");
+
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns(excludePaths);
     }
 }

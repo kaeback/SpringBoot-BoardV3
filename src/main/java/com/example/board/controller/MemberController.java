@@ -80,7 +80,9 @@ public class MemberController {
     @PostMapping("login")
     public String login(@Validated @ModelAttribute("loginForm") LoginForm loginForm,
                         BindingResult result,
-                        HttpServletRequest request) {
+                        HttpServletRequest request,
+                        @RequestParam(defaultValue = "/") String redirectURL) {
+        log.info("redirectURL: {}", redirectURL);
         log.info("loginForm: {}", loginForm);
         // validation 에 실패하면 member/loginForm 페이지로 돌아간다.
         if (result.hasErrors()) {
@@ -101,7 +103,7 @@ public class MemberController {
         // Session 에 'loginMember' 라는 이름으로 Member 객체를 저장한다.
         session.setAttribute("loginMember", member);
         // 메인 페이지로 리다이렉트 한다.
-        return "redirect:/";
+        return "redirect:" + redirectURL;
     }
 
     // 로그아웃

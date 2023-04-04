@@ -8,7 +8,7 @@
 <body>
 <div id="container">
   <h1>[ 로그인 ]</h1>
-  <form action="/member/login" method="post" th:object="${loginForm}">
+  <form action="" method="post" th:object="${loginForm}">
     <div th:if="${#fields.hasGlobalErrors()}">
       <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
     </div>
